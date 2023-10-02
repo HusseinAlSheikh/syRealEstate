@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(NeighbourhoodSeeder::class);
         $this->call(PropertyTypeSeeder::class);
         $this->call(BokerageSeeder::class);
+        $this->call(AnnounceTypeSeeder::class);
     }
 }

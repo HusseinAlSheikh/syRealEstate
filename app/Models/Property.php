@@ -20,9 +20,13 @@ class Property extends Model
     public function neighbourhood(){
         return $this->belongsTo(Neighbourhood::class);
     }
-    
+
     public function bokerage(){
         return $this->belongsTo(Bokerage::class);
+    }
+
+    public function announceType(){
+        return $this->belongsTo(AnnounceType::class);
     }
     
 
