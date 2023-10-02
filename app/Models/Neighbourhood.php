@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Neighbourhood extends Model
 {
     use HasFactory;
+
+    public function city(){
+        return $this->belongsTo(City::class);
+    }
+
+
+    public function properties(){
+        return $this->hasMany(Property::class);
+    }
 }

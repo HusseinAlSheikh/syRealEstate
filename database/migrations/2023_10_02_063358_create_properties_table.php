@@ -26,6 +26,10 @@ return new class extends Migration
             $table->enum('announce_type',['OFFER' , 'WANTED']);
             $table->integer('area');
             $table->text('description');
+            $table->foreign('property_type_id')->references('id')->on('property_types')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('neighbourhood_id')->references('id')->on('neighbourhoods')->onDelete('cascade');
+            $table->foreign('bokerage_id')->references('id')->on('bokerages')->onDelete('cascade');
             $table->timestamps();
         });
     }

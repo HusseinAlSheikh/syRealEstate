@@ -8,4 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Property extends Model
 {
     use HasFactory;
+
+    public function propertyType(){
+        return $this->belongsTo(PropertyType::class);
+    }
+    
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    
+    public function neighbourhood(){
+        return $this->belongsTo(Neighbourhood::class);
+    }
+    
+    public function bokerage(){
+        return $this->belongsTo(Bokerage::class);
+    }
+    
+
 }
