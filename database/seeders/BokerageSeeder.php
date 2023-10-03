@@ -18,7 +18,7 @@ class BokerageSeeder extends Seeder
         $bokerages = [
             ['id' => 1 , 'name_ar' => 'بيع' , 'name_en' => 'Sale'] ,
             ['id' => 2 , 'name_ar' => 'آجار' , 'name_en' => 'Rent'] ,
-
+            ['id' => 3 , 'name_ar' => 'استثمار' , 'name_en' => 'Investment'] ,
         ];
         foreach ($bokerages as $bokerage){
             Bokerage::create($bokerage);

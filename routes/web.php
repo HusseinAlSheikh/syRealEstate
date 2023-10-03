@@ -1,7 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use \App\Http\Controllers\StateController;
+use \App\Http\Controllers\CityController;
+use \App\Http\Controllers\NeighbourhoodController;
+use \App\Http\Controllers\PropertyTypeController;
+use \App\Http\Controllers\PropertyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,13 +19,30 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
-Route::get('/1', function () {
-    return view('welcome1');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+})->name('home');
 
 require __DIR__.'/auth.php';
+
+
+Route::middleware(['auth' , 'auth.admin'])->group(function (){
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+    //---------- Users
+    Route::resources('users' , StateController::class);
+    //---------- States
+    Route::resources('states' , StateController::class);
+    //---------- Cities
+    Route::resources('cities' , StateController::class);
+    //---------- Neighbourhoods
+    Route::resources('neighbourhoods' , StateController::class);
+    //---------- Property Types
+    Route::resources('propertyTypes' , StateController::class);
+    //---------- Properties
+    Route::resources('properties' , StateController::class);
+});
+
+Route::middleware(['auth' , 'auth.super'])->group(function (){
+    //----------- links for super admin dev
+
+});

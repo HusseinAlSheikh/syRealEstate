@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('area');
             $table->text('description');
+            $table->boolean('is_done')->default(false);
             $table->foreign('property_type_id')->references('id')->on('property_types')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('neighbourhood_id')->references('id')->on('neighbourhoods')->onDelete('cascade');

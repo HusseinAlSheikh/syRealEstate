@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SuperMiddleware
 {
@@ -16,9 +17,9 @@ class SuperMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->user_type !=='SUPER'){
-            return abort(404);
+        if (auth()->check() && auth::user()->user_type ==='SUPER'){
+            return $next($request);
         }
-        return $next($request);
+        return abort(404);
     }
 }
