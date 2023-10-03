@@ -5,4 +5,11 @@ return [
 //        'OFFER'  ,
 //        'WANTED'
 //    ],
+
+
+    'user_type' => [
+        'AGENT' => 'Agent' ,
+        'ADMIN' => 'Admin' ,
+        'SUPER' => 'Super Admin'
+    ]
 ];

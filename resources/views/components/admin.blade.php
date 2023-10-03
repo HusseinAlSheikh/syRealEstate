@@ -1,3 +1,4 @@
+@props(['selected'])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,6 +22,7 @@
         :class="{'dark text-bodydark bg-boxdark-2': darkMode === true}">
 <!-- ===== Preloader Start ===== -->
 {{--<include src="./partials/preloader.html"></include>--}}
+
 <x-partials.preloader />
 <!-- ===== Preloader End ===== -->
 
@@ -28,7 +30,7 @@
 <div class="flex h-screen overflow-hidden">
     <!-- ===== Sidebar Start ===== -->
     {{--<include src="./partials/sidebar.html"></include>--}}
-    <x-partials.sidebar />
+    <x-partials.sidebar  :selected="$selected"/>
     <!-- ===== Sidebar End ===== -->
 
     <!-- ===== Content Area Start ===== -->

@@ -1,3 +1,3 @@
-<x-admin>
+<x-admin :selected="'dashboard'">
     in
 </x-admin>
