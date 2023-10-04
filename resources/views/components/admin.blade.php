@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-        eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template
+        {{env('APP_NAME')}}
     </title>
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <script defer src="{{asset('js/app.js')}}"></script>
