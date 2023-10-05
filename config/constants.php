@@ -10,5 +10,8 @@ return [
     'user_type' => [
         'AGENT' => 'Agent' ,
         'ADMIN' => 'Admin' ,
+    ] ,
+    'user_type_super' => [
+        'SUPER' => 'Super'
     ]
 ];

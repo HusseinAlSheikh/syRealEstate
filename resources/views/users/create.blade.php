@@ -21,11 +21,11 @@
             <form action="{{route('users.store')}}" method="POST">
                 @csrf
                 <div class="p-6.5">
-                    <div class="mb-4.5">
+                    <div class="mb-4.5 ">
                         <label class="mb-2.5 block text-black dark:text-white">
                             Name
                         </label>
-                        <input type="text" name="name" placeholder="Enter your full name" class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" value="{{old('name')}} ">
+                        <input type="text" name="name" placeholder="Enter your full name" class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary " value="{{old('name')}} ">
                         @error('name')
                             <div class="text-sm font-medium   text-danger">{{ $message }}</div>
                         @enderror

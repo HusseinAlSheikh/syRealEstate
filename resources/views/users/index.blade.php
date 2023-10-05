@@ -16,8 +16,11 @@
                 <div class="p-2.5 text-center xl:p-5">
                     <h5 class="text-sm font-medium  xsm:text-base">Email Verified At</h5>
                 </div>
-                <div class="hidden p-2.5 text-center sm:block xl:p-5">
+                <div class="p-2.5 text-center sm:block xl:p-5">
                     <h5 class="text-sm font-medium  xsm:text-base">User Type</h5>
+                </div>
+                <div class="p-2.5 text-center sm:block xl:p-5">
+                    <h5 class="text-sm font-medium  xsm:text-base">Options</h5>
                 </div>
             </div>
             @foreach($users as $user)
@@ -40,10 +43,17 @@
                     </p>
                 </div>
 
-                <div class="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                <div class="flex items-center justify-center p-2.5 sm:flex xl:p-5">
                     <p class="font-medium text-black dark:text-white">
                         {{$userType[$user->user_type]}}
                     </p>
+                </div>
+
+                <div class="flex items-center justify-center p-2.5 sm:flex xl:p-5">
+                    <span class="font-medium text-black dark:text-white">
+                        <a href="{{route('users.edit' , ['user' => $user->id])}}">Edit</a>
+                        <a href="{{route('users.destroy' , ['user' => $user->id])}}">Delete</a>
+                    </span>
                 </div>
 
             </div>
