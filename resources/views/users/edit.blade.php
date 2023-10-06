@@ -15,17 +15,18 @@
 
             <div class="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                 <h3 class="font-semibold text-black dark:text-white">
-                    Add New User
+                    Edit New User
                 </h3>
             </div>
-            <form action="{{route('users.store')}}" method="POST">
+            <form action="{{route('users.update' , $user->id)}}" method="POST">
                 @csrf
+                @method('PUT')
                 <div class="p-6.5">
                     <div class="mb-4.5 ">
                         <label class="mb-2.5 block text-black dark:text-white">
                             Name
                         </label>
-                        <input type="text" name="name" placeholder="Enter your full name" class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary " value="{{old('name')}} ">
+                        <input type="text" name="name" placeholder="Enter your full name" class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary " value="{{old('name')??$user->name}} ">
                         <x-error :name="'name'"/>
 
                     </div>
@@ -34,7 +35,7 @@
                         <label class="mb-2.5 block text-black dark:text-white">
                             Email
                         </label>
-                        <input type="email" name="email" placeholder="Enter your email address" class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"  value="{{old('email')}}" >
+                        <input type="email" name="email" placeholder="Enter your email address" class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"  value="{{old('email')??$user->email}}" >
                         <x-error :name="'email'"/>
 
                     </div>
@@ -55,7 +56,7 @@
                         <select  name="user_type" class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                             <option></option>
                             @foreach($userType as $code => $type)
-                                <option value="{{$code}}"  {{ old('user_type') == $code ? 'selected' : ''}} >{{$type}}</option>
+                                <option value="{{$code}}"  {{ (old('user_type')??$user->user_type == $code) ? 'selected' : ''}} >{{$type}}</option>
                             @endforeach
                         </select>
                         <x-error :name="'user_type'"/>
@@ -63,7 +64,7 @@
                     </div>
 
                     <button type="submit" class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                        Add
+                        Edit
                     </button>
                 </div>
             </form>

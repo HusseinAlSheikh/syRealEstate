@@ -1,5 +1,9 @@
 <x-admin :selected="'users'">
-
+    {{--@session('success')--}}
+        {{--<div class="absolute alert ">--}}
+            {{--This is success --}}
+        {{--</div>--}}
+    {{--@endsession--}}
     <div class="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
 
             <h4 class="mb-6 text-xl font-bold text-black dark:text-white">
@@ -52,7 +56,11 @@
                 <div class="flex items-center justify-center p-2.5 sm:flex xl:p-5">
                     <span class="font-medium text-black dark:text-white">
                         <a href="{{route('users.edit' , ['user' => $user->id])}}">Edit</a>
-                        <a href="{{route('users.destroy' , ['user' => $user->id])}}">Delete</a>
+                        <form method="POST" action="{{route('users.destroy' ,['user' => $user->id] )}}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" >Delete</button>
+                        </form>
                     </span>
                 </div>
 

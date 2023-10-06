@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('user_type',['SUPER','ADMIN','AGENT'])->default('AGENT');
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

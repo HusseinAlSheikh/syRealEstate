@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserFormRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -13,17 +14,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $userType = config('constants.user_type');
+        $userType = $this->getUserTypes();
         if (Auth()->user()->user_type !='SUPER'){
             $users    = User::where('user_type' , '<>' , 'SUPER')->paginate(10);
         }
         else{
-            $userType = array_merge($userType , config('constants.user_type_super'));
             $users    = User::paginate(10);
         }
-
+        if ($request->ajax()){
+            return DataTables::of($users)->addIndexColumn()->rawColumns(['action'])->make(true);
+        }
         return view('users.index' , compact('users' , 'userType'));
     }
 
@@ -34,7 +36,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $userType = config('constants.user_type');
+        $userType = $this->getUserTypes();
         return view('users.create' , compact( 'userType'));
 
     }
@@ -56,7 +58,9 @@ class UserController extends Controller
             'user_type' => $request->user_type ,
         ]);
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with(
+                'message'  , 'Added New User Successfully'
+            );
     }
 
     /**
@@ -82,7 +86,8 @@ class UserController extends Controller
         if ($user->user_type == 'SUPER' && Auth()->user()->user_type != 'SUPER'){
             abort(404);
         }
-        dd($user);
+        $userType = $this->getUserTypes();
+        return view('users.edit' , compact('user' , 'userType'));
     }
 
     /**
@@ -92,9 +97,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserFormRequest $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $request->authorize();
+        $user->name = $request->name ;
+        $user->email = $request->email ;
+        $user->user_type = $request->user_type;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return redirect()->route('users.index')->with(
+            'message' , 'Updated User Successfully'
+        );
     }
 
     /**
@@ -105,6 +120,20 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        dd($id , 'delete');
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('users.index')->with(
+            'message' , 'Deleted User Successfully'
+        );
+    }
+
+
+    //-------
+    private function getUserTypes(){
+        $userType = config('constants.user_type');
+        if (Auth()->user()->user_type =='SUPER'){
+            $userType = array_merge($userType , config('constants.user_type_super'));
+        }
+        return $userType;
     }
 }

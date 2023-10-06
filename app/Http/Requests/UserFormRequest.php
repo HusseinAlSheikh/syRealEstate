@@ -23,11 +23,15 @@ class UserFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules =  [
             'name' => 'required|min:3' ,
             'email' => 'required|email|unique:users' ,
             'password' => 'required|min:8|max:32' ,
             'user_type' => 'required'
         ];
+        if ($this->method() =='PUT'){
+            $rules['email'] = 'required|email|unique:users,email,'.$this->route()->user ;
+        }
+        return $rules;
     }
 }
