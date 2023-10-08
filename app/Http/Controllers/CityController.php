@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\State;
 use Illuminate\Http\Request;
 
 class CityController extends Controller
@@ -14,7 +15,8 @@ class CityController extends Controller
      */
     public function index()
     {
-        //
+        $cities = City::latest()->with('state')->paginate(10);
+        return view('cities.index' , compact('cities'));
     }
 
     /**
@@ -24,7 +26,8 @@ class CityController extends Controller
      */
     public function create()
     {
-        //
+        $states = State::all();
+        return view('cities.create' , compact('states'));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StateFormRequest;
 use App\Models\State;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class StateController extends Controller
      */
     public function index()
     {
-        //
+        $states = State::latest()->paginate(10);
+        return view('states.index' , compact('states'));
     }
 
     /**
@@ -24,7 +26,7 @@ class StateController extends Controller
      */
     public function create()
     {
-        //
+        return view('states.create');
     }
 
     /**
@@ -33,9 +35,18 @@ class StateController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StateFormRequest $request)
     {
-        //
+         $request->authorize();
+
+        State::create([
+            'name_ar' => $request->name_ar ,
+            'name_en' => $request->name_en ,
+        ]);
+
+        return redirect()->route('states.index')->with(
+            'message'  , 'Added New State Successfully'
+        );
     }
 
     /**
@@ -57,7 +68,7 @@ class StateController extends Controller
      */
     public function edit(State $state)
     {
-        //
+       return view('states.edit' ,compact('state'));
     }
 
     /**
@@ -67,9 +78,15 @@ class StateController extends Controller
      * @param  \App\Models\State  $state
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, State $state)
+    public function update(StateFormRequest $request, State $state)
     {
-        //
+        $request->authorize();
+        $state->name_ar = $request->name_ar;
+        $state->name_en = $request->name_en;
+        $state->save();
+        return redirect()->route('states.index')->with(
+            'message'  , 'Update State Successfully'
+        );
     }
 
     /**
@@ -81,5 +98,9 @@ class StateController extends Controller
     public function destroy(State $state)
     {
         //
+        $state->delete();
+        return redirect()->route('states.index')->with(
+            'message'  , 'Delete State Successfully'
+        );
     }
 }
