@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CityFormRequest;
 use App\Models\City;
 use App\Models\State;
 use Illuminate\Http\Request;
@@ -36,9 +37,19 @@ class CityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CityFormRequest $request)
     {
-        //
+        $request->authorize();
+
+        City::create([
+            'name_ar'  => $request->name_ar ,
+            'name_en'  => $request->name_en ,
+            'state_id' => $request->state_id,
+        ]);
+
+        return redirect()->route('cities.index')->with(
+            'message'  , 'Added New City Successfully'
+        );
     }
 
     /**
@@ -60,7 +71,8 @@ class CityController extends Controller
      */
     public function edit(City $city)
     {
-        //
+        $states = State::all();
+        return view('cities.edit' , compact('city' ,'states'));
     }
 
     /**
@@ -70,9 +82,18 @@ class CityController extends Controller
      * @param  \App\Models\City  $city
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, City $city)
+    public function update(CityFormRequest $request, City $city)
     {
-        //
+        $request->authorize();
+
+        $city->name_ar = $request->name_ar;
+        $city->name_en = $request->name_en;
+        $city->state_id = $request->state_id;
+        $city->save();
+        return redirect()->route('cities.index')->with(
+            'message'  , 'Update City Successfully'
+        );
+
     }
 
     /**
@@ -83,6 +104,9 @@ class CityController extends Controller
      */
     public function destroy(City $city)
     {
-        //
+        $city->delete();
+        return redirect()->route('cities.index')->with(
+            'message'  , 'Delete City Successfully'
+        );
     }
 }

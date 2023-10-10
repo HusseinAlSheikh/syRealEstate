@@ -1,4 +1,4 @@
-<x-admin :selected="'cities'">
+<x-admin :selected="'neighbourhoods'">
 
     {{--@if ($errors->any())--}}
         {{--<div class="alert alert-danger">--}}
