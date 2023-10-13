@@ -15,10 +15,10 @@
 
             <div class="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                 <h3 class="font-semibold text-black dark:text-white">
-                    Add New State
+                    Add New Neighbourhood
                 </h3>
             </div>
-            <form action="{{route('cities.store')}}" method="POST">
+            <form action="{{route('neighbourhoods.store')}}" method="POST">
                 @csrf
                 <div class="p-6.5">
 
@@ -41,15 +41,15 @@
 
                     <div class="mb-4.5 ">
                         <label class="mb-2.5 block text-black dark:text-white">
-                            State
+                            City
                         </label>
-                        <select id="state_id" name="state_id" class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary " >
+                        <select id="city_id" name="city_id" class="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary " >
                                 <option></option>
-                                @foreach($states as $state )
-                                    <option value="{{$state->id}}"  {{old('state_id')==$state->id?'selected':'7'}} >{{$state->name_ar}}</option>
+                                @foreach($cities as $city )
+                                    <option value="{{$city->id}}"  {{old('city_id')==$city->id?'selected':'7'}} >{{$city->name_ar}}</option>
                                 @endforeach
                         </select>
-                        <x-error :name="'state_id'"/>
+                        <x-error :name="'city_id'"/>
 
                     </div>
 

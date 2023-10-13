@@ -15,7 +15,7 @@
 
             <div class="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                 <h3 class="font-semibold text-black dark:text-white">
-                    Edit New User
+                    Edit User
                 </h3>
             </div>
             <form action="{{route('users.update' , $user->id)}}" method="POST">

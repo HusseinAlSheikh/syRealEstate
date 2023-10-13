@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PropertyTypeFormRequest;
 use App\Models\PropertyType;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class PropertyTypeController extends Controller
      */
     public function index()
     {
-        //
+        $propertyTypes = PropertyType::latest()->paginate(10);
+        return view('propertyTypes.index' , compact('propertyTypes'));
     }
 
     /**
@@ -24,7 +26,7 @@ class PropertyTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('propertyTypes.create');
     }
 
     /**
@@ -33,9 +35,18 @@ class PropertyTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PropertyTypeFormRequest $request)
     {
-        //
+        $request->authorize();
+
+        $propertyType = new PropertyType;
+        $propertyType->name_ar = $request->name_ar;
+        $propertyType->name_en = $request->name_en;
+        $propertyType->save();
+
+        return redirect()->route('propertyTypes.index')->with(
+            'message'  , 'Added New Property Type Successfully'
+        );
     }
 
     /**
@@ -57,7 +68,7 @@ class PropertyTypeController extends Controller
      */
     public function edit(PropertyType $propertyType)
     {
-        //
+        return view('propertyTypes.edit' , compact('propertyType'));
     }
 
     /**
@@ -67,9 +78,17 @@ class PropertyTypeController extends Controller
      * @param  \App\Models\PropertyType  $propertyType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PropertyType $propertyType)
+    public function update(PropertyTypeFormRequest $request, PropertyType $propertyType)
     {
-        //
+        $request->authorize();
+        $propertyType->name_ar = $request->name_ar;
+        $propertyType->name_en = $request->name_en;
+        $propertyType->save();
+
+        return redirect()->route('propertyTypes.index')->with(
+            'message'  , 'Update Property Type Successfully'
+        );
+
     }
 
     /**
@@ -81,5 +100,9 @@ class PropertyTypeController extends Controller
     public function destroy(PropertyType $propertyType)
     {
         //
+        $propertyType->delete();
+        return redirect()->route('propertyTypes.index')->with(
+            'message'  , 'Delete Property Type Successfully'
+        );
     }
 }

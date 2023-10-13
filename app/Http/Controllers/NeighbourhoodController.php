@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NeighbourhoodFormRequest;
 use App\Models\City;
 use App\Models\Neighbourhood;
 use Illuminate\Http\Request;
@@ -27,7 +28,8 @@ class NeighbourhoodController extends Controller
      */
     public function create()
     {
-        //
+        $cities = City::all();
+        return view('neighbourhoods.create' , compact('cities'));
     }
 
     /**
@@ -36,9 +38,18 @@ class NeighbourhoodController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NeighbourhoodFormRequest $request)
     {
-        //
+        $request->authorize();
+        Neighbourhood::create([
+            'name_ar' => $request->name_ar ,
+            'name_en' => $request->name_en,
+            'city_id' => $request->city_id ,
+        ]);
+
+        return redirect()->route('neighbourhoods.index')->with(
+            'message'  , 'Added New Neighbourhood Successfully'
+        );
     }
 
     /**
@@ -49,7 +60,7 @@ class NeighbourhoodController extends Controller
      */
     public function show(Neighbourhood $neighbourhood)
     {
-        //
+
     }
 
     /**
@@ -60,7 +71,8 @@ class NeighbourhoodController extends Controller
      */
     public function edit(Neighbourhood $neighbourhood)
     {
-        //
+        $cities = City::all();
+        return view('neighbourhoods.edit' , compact('cities' , 'neighbourhood'));
     }
 
     /**
@@ -70,9 +82,16 @@ class NeighbourhoodController extends Controller
      * @param  \App\Models\Neighbourhood  $neighbourhood
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Neighbourhood $neighbourhood)
+    public function update(NeighbourhoodFormRequest $request, Neighbourhood $neighbourhood)
     {
-        //
+        $request->authorize();
+        $neighbourhood->name_ar = $request->name_ar;
+        $neighbourhood->name_en = $request->name_en;
+        $neighbourhood->city_id = $request->city_id;
+        $neighbourhood->save();
+        return redirect()->route('neighbourhoods.index')->with(
+            'message'  , 'Update Neighbourhood Successfully'
+        );
     }
 
     /**
@@ -84,5 +103,9 @@ class NeighbourhoodController extends Controller
     public function destroy(Neighbourhood $neighbourhood)
     {
         //
+        $neighbourhood->delete();
+        return redirect()->route('neighbourhoods.index')->with(
+            'message'  , 'Delete Neighbourhood Successfully'
+        );
     }
 }
